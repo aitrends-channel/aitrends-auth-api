@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-// Public signup endpoint for users to create an account and receive a password setup link.
+//For Public signup endpoint for users to create an account and receive a password setup link.
 export async function POST(request: Request) {
   const body = await request.json();
   const email = (body.email ?? "").trim().toLowerCase();
