@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-// Called by the desktop app after login to confirm paid status.
-// The desktop app passes the Supabase session JWT as: Authorization: Bearer <token>
+// Called by the app after login to confirm subscription status.
+// The app passes the Supabase session JWT as: Authorization: Bearer <token>
 export async function GET(request: Request) {
   const auth = request.headers.get("authorization");
   const jwt = auth?.startsWith("Bearer ") ? auth.slice(7) : null;

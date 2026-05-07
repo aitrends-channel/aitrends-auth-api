@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   async headers() {
-    // Allow the desktop app to call these endpoints cross-origin.
-    // Set ALLOWED_ORIGIN to the exact desktop app URL in production.
+    // Allow the frontend app to call these endpoints cross-origin.
+    // Set ALLOWED_ORIGIN to the exact web app origin in production.
     const origin = process.env.ALLOWED_ORIGIN ?? "*";
     return [
       {
