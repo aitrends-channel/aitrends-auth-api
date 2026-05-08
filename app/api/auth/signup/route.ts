@@ -28,7 +28,7 @@ console.log("SERVICE_ROLE_KEY exists:", !!process.env.SUPABASE_SERVICE_ROLE_KEY)
         last_name: lastName,
         full_name: `${firstName ?? ""} ${lastName ?? ""}`.trim(),
       },
-      redirectTo: `${appUrl}/set-passpassword`,
+      redirectTo: `${appUrl}/set-passpassword`
     });
 
   if (error) {
