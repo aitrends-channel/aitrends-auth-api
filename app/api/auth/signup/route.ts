@@ -31,12 +31,12 @@ console.log("SERVICE_ROLE_KEY exists:", !!process.env.SUPABASE_SERVICE_ROLE_KEY)
       redirectTo: `${appUrl}/set-password`,
     });
 
-  // if (error) {
-  //   return NextResponse.json(
-  //     { error: error.message },
-  //     { status: 400 }
-  //   );
-  // }
+  if (error) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 400 }
+    );
+  }
 
  
   return NextResponse.json({
