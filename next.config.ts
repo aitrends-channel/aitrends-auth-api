@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   async headers() {
     // Allow the frontend app to call these endpoints cross-origin.
     // Set ALLOWED_ORIGIN to the exact web app origin in production.
-    const origin = process.env.ALLOWED_ORIGIN ?? "*";
+    const origin = process.env.ALLOWED_ORIGIN || "*";
     return [
       {
         source: "/api/:path*",
