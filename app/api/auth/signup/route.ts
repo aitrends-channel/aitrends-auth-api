@@ -1,29 +1,46 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-//Public signup endpoint for users to create an account and receive a password setup link.
 export async function POST(request: Request) {
   const body = await request.json();
+
+  console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
+console.log("SERVICE_ROLE_KEY exists:", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+
   const email = (body.email ?? "").trim().toLowerCase();
-  if (!email) return NextResponse.json({ error: "Email required" }, { status: 400 });
+  const firstName = body.first_name?.trim();
+  const lastName = body.last_name?.trim();
 
-  const appUrl = process.env.APP_URL ?? new URL(request.url).origin;
-
-  const { data, error } = await supabase.auth.admin.inviteUserByEmail(email, {
-    redirectTo: `${appUrl}/set-password`,
-  });
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-
-  if (data?.user) {
-    await supabase.auth.admin.updateUserById(data.user.id, {
-      app_metadata: { paid: false, signed_up_at: new Date().toISOString() },
-    });
-    await supabase.from("allowed_emails").upsert({ email });
+  if (!email) {
+    return NextResponse.json(
+      { error: "Email is required" },
+      { status: 400 }
+    );
   }
 
-  return NextResponse.json({ success: true });
-}
+  const appUrl =
+    process.env.APP_URL ?? new URL(request.url).origin;
 
-export async function OPTIONS() {
-  return new NextResponse(null, { status: 204 });
+  const { data, error } =
+    await supabase.auth.admin.inviteUserByEmail(email, {
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        full_name: `${firstName ?? ""} ${lastName ?? ""}`.trim(),
+      },
+      redirectTo: `${appUrl}/set-password`,
+    });
+
+  // if (error) {
+  //   return NextResponse.json(
+  //     { error: error.message },
+  //     { status: 400 }
+  //   );
+  // }
+
+ 
+  return NextResponse.json({
+    success: true,
+    message: "Signup email sent",
+  });
 }
